@@ -1051,12 +1051,21 @@
           textEl.textContent = d.wish || '';
           card.appendChild(textEl);
 
-          if (isOwner) {
-            var meta = document.createElement('p');
-            meta.className = 'wmeta';
-            meta.textContent = d.hidden ? 'Hidden from guests' : 'Visible to guests';
-            card.appendChild(meta);
+          var meta = document.createElement('p');
+meta.className = 'wmeta';
+var dateText = 'Just now';
+if (d.createdAt && typeof d.createdAt.toDate === 'function') {
+  dateText = d.createdAt.toDate().toLocaleString(undefined, {
+    month: 'short', day: 'numeric', year: 'numeric',
+    hour: 'numeric', minute: '2-digit'
+  });
+}
+meta.textContent = isOwner
+  ? dateText + ' \u00b7 ' + (d.hidden ? 'Hidden from guests' : 'Visible to guests')
+  : dateText;
+card.appendChild(meta);
 
+if (isOwner) {
             var actions = document.createElement('div');
             actions.className = 'wish-actions';
 
